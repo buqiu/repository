@@ -1,13 +1,13 @@
-# Laravel Repositories
+# Laravel Repository
 
-Laravel Repositories 是 Laravel 6 的一个软件包，用于抽象数据库层。 这使应用程序易于维护。
+Laravel Repository 是 Laravel 6 的一个软件包，用于抽象数据库层。 这使应用程序易于维护。
 
 ## 安装
 
 从终端运行以下命令:
 
 ```shell script
-composer require buqiu/repositories
+composer require buqiu/repository
 ```
 
 ## 使用
@@ -26,7 +26,7 @@ php artisan make:repository Film
 
 namespace App\Http\Controllers;
 
-use App\Repositories\UserRepository;
+use App\Repository\UserRepository;
 
 class FilmsController extends Controller {
 
