@@ -41,7 +41,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Buqiu\\Repository\\Providers\\RepositoryServiceProvider"
+                "Buqiu\\Repository\\Providers\\RepositoryProvider"
             ]
         }
     }
