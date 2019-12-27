@@ -55,7 +55,7 @@ class FilmsController extends Controller {
 如果您希望覆盖存储库和条件所在的路径,请发布配置文件:
 
 ```shell script
-php artisan vendor:publish --provider="Buqiu\Repositories\Providers\RepositoryProvider"
+php artisan vendor:publish --provider="Buqiu\Repository\Providers\RepositoryProvider"
 ```
 
 然后只需打开 `config/repositories.php` 并编辑即可！
@@ -63,7 +63,7 @@ php artisan vendor:publish --provider="Buqiu\Repositories\Providers\RepositoryPr
 ## 可用方法
 
 可以使用以下方法:
-Buqiu\Repositories\Contracts\RepositoryInterface
+Buqiu\Repository\Contracts\RepositoryInterface
 
 ```shell script
 public function all($columns = ['*'])
@@ -87,7 +87,7 @@ public function getByAttributes(array $attributes = [], array $columns = array('
 public function paginateByAttributes(array $attributes = [], int $perPage = 20, array $columns = array('*'), $method = 'full')
 ```
 
-Buqiu\Repositories\Contracts\CriteriaInterface
+Buqiu\Repository\Contracts\CriteriaInterface
 
 ```shell script
 public function apply($model, Repository $repository)
@@ -170,10 +170,10 @@ php artisan make:criteria LengthOverTwoHours --model=user
 ```php
 <?php
 
-namespace App\Repositories\Criteria\Films;
+namespace App\Repository\Criteria\Films;
 
-use Dugajean\Repositories\Criteria\Criteria;
-use Dugajean\Repositories\Contracts\RepositoryInterface;
+use Buqiu\Repository\Criteria\Criteria;
+use Buqiu\Repository\Contracts\RepositoryInterface;
 
 class LengthOverTwoHours extends Criteria 
 {
