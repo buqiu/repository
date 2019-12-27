@@ -54,8 +54,8 @@ abstract class BaseCommand extends Command
     {
         try {
             $created = $this->creator->create($this->argument('name'), $this->option('model'), $this);
-        } catch (\RuntimeException $e) {
-            $this->error($e->getMessage());
+        } catch (\RuntimeException $exception) {
+            $this->error($exception->getMessage());
 
             return;
         }

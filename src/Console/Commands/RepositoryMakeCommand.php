@@ -20,7 +20,7 @@ class RepositoryMakeCommand extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Create a new repository class';
+    protected $description = 'Create a new repository(存储库) class';
 
     /**
      * @param RepositoryCreator $creator
