@@ -8,6 +8,7 @@ use Buqiu\Repository\Eloquent\Repository;
 class repository_class extends Repository
 {
     /**
+     * 存储库绑定的模型
      * The model tied to this repository.
      *
      * @return string

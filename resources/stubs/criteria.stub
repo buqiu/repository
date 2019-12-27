@@ -8,9 +8,10 @@ use Buqiu\Repository\Contracts\RepositoryInterface;
 class criteria_class extends Criteria
 {
     /**
+     * 存储库应执行的标准
      * The criteria on which a repository should perform.
      *
-     * @param mixed               $model
+     * @param mixed $model
      * @param RepositoryInterface $repository
 
      * @return mixed
