@@ -1,0 +1,22 @@
+<?php
+
+namespace criteria_namespace;
+
+use Buqiu\Repository\Criteria\Criteria;
+use Buqiu\Repository\Contracts\RepositoryInterface;
+
+class criteria_class extends Criteria
+{
+    /**
+     * The criteria on which a repository should perform.
+     *
+     * @param mixed               $model
+     * @param RepositoryInterface $repository
+
+     * @return mixed
+     */
+    public function apply($model, RepositoryInterface $repository)
+    {
+        return $model;
+    }
+}

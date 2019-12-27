@@ -1,0 +1,19 @@
+<?php
+
+namespace repository_namespace;
+
+use model_path\model_name;
+use Buqiu\Repository\Eloquent\Repository;
+
+class repository_class extends Repository
+{
+    /**
+     * The model tied to this repository.
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return model_name::class;
+    }
+}
