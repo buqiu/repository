@@ -5,6 +5,7 @@ namespace Buqiu\Repository\Console\Commands\Creators;
 use Doctrine\Common\Inflector\Inflector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class RepositoryCreator extends BaseCreator
 {
@@ -51,16 +52,30 @@ class RepositoryCreator extends BaseCreator
         $repositoryNamespace = Config::get('repositories.repository_namespace');
 
         // Repository class.
-        $repositoryClass = substr($this->getName(), strripos($this->getName(), "/"));
+        $repositoryClass = $this->getName();
+        if (Str::is('*/*', $repositoryClass)) {
+            $directory = $this->getDirectory().'/'.Str::before($repositoryClass, '/');
+            // 判断目录是否存在
+            if (!$this->files->isDirectory($directory)) {
+                $this->files->makeDirectory($directory);
+            }
+            // 重定义命名空间
+            $repositoryNamespace = $repositoryNamespace.'\\'.Str::before($repositoryClass, '/');
+            // 重定义存储库类名
+            $repositoryClass = Str::after($repositoryClass, '/');
+        }
 
         // Model path.
         $modelPath = Config::get('repositories.model_namespace');
 
         // Model use name
-        $modelUseName = trim(str_replace('/', '\\', $this->getModelName()), '\\');
+        $modelName = $this->getModelName();
+        $modelUseName = trim(str_replace('/', '\\', $modelName), '\\');
 
         // Model name.
-        $modelName = substr($this->getModelName(), strripos($this->getModelName(), "/"));
+        if (Str::is('*/*', $modelName)) {
+            $modelName = Str::after($modelName, '/');
+        }
 
         // Populate data.
         $populateData = [
