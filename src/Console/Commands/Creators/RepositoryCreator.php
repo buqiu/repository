@@ -18,11 +18,12 @@ class RepositoryCreator extends BaseCreator
      */
     protected function createClass()
     {
-        $model = Config::get('repositories.model_namespace').'\\'.$this->name;
+        $model = trim(str_replace('/', '\\', Config::get('repositories.model_namespace').'\\'.$this->name), '\\');
 
         if (!class_exists($model)) {
             if ($this->command->confirm("Do you want to create a {$model} model?")) {
-                Artisan::call('make:model', ['name' => $this->name]);
+                $modelName = str_replace('App\\', '', $model);
+                Artisan::call('make:model', ['name' => $modelName ?? $this->name]);
             } else {
                 throw new \RuntimeException("Could not create repository: Model {$model} does not exist.");
             }
@@ -50,18 +51,22 @@ class RepositoryCreator extends BaseCreator
         $repositoryNamespace = Config::get('repositories.repository_namespace');
 
         // Repository class.
-        $repositoryClass = $this->getName();
+        $repositoryClass = substr($this->getName(), strripos($this->getName(), "/") + 1);
 
         // Model path.
         $modelPath = Config::get('repositories.model_namespace');
 
+        // Model use name
+        $modelUseName = trim(str_replace('/', '\\', $this->getModelName()), '\\');
+
         // Model name.
-        $modelName = $this->getModelName();
+        $modelName = substr($this->getModelName(), strripos($this->getModelName(), "/") + 1);;
 
         // Populate data.
         $populateData = [
             'repository_namespace' => $repositoryNamespace,
             'repository_class' => $repositoryClass,
+            'model_use_name' => $modelUseName,
             'model_path' => $modelPath,
             'model_name' => $modelName,
         ];
@@ -71,7 +76,7 @@ class RepositoryCreator extends BaseCreator
     }
 
     /**
-     * 获取仓库名称
+     * 获取存储库名称
      * Get the repository name.
      *
      * @return mixed|string
@@ -92,7 +97,7 @@ class RepositoryCreator extends BaseCreator
     }
 
     /**
-     * 获取m模型名称
+     * 获取模型名称
      * Get the model name.
      *
      * @return string

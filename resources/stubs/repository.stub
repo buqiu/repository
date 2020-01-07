@@ -2,7 +2,7 @@
 
 namespace repository_namespace;
 
-use model_path\model_name;
+use model_path\model_use_name;
 use Buqiu\Repository\Eloquent\Repository;
 
 class repository_class extends Repository

@@ -4,7 +4,7 @@ namespace Buqiu\Repository\Console\Commands\Creators;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
-use Buqiu\Repositories\Console\Commands\BaseCommand;
+use Buqiu\Repository\Console\Commands\BaseCommand;
 
 abstract class BaseCreator
 {
