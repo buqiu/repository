@@ -51,7 +51,7 @@ class RepositoryCreator extends BaseCreator
         $repositoryNamespace = Config::get('repositories.repository_namespace');
 
         // Repository class.
-        $repositoryClass = substr($this->getName(), strripos($this->getName(), "/") + 1);
+        $repositoryClass = substr($this->getName(), strripos($this->getName(), "/"));
 
         // Model path.
         $modelPath = Config::get('repositories.model_namespace');
@@ -60,7 +60,7 @@ class RepositoryCreator extends BaseCreator
         $modelUseName = trim(str_replace('/', '\\', $this->getModelName()), '\\');
 
         // Model name.
-        $modelName = substr($this->getModelName(), strripos($this->getModelName(), "/") + 1);;
+        $modelName = substr($this->getModelName(), strripos($this->getModelName(), "/"));
 
         // Populate data.
         $populateData = [
