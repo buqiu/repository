@@ -31,7 +31,7 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function create(array $data = []);
+    public function create(array $data);
 
     /**
      * 修改数据

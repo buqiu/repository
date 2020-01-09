@@ -4,7 +4,7 @@ namespace Buqiu\Repository\Eloquent;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Container\Container as Application;
+use Illuminate\Container\Container as App;
 use Illuminate\Contracts\Pagination\Paginator;
 use Buqiu\Repository\Criteria\Criteria;
 use Buqiu\Repository\Contracts\CriteriaInterface;
@@ -14,7 +14,7 @@ use Buqiu\Repository\Exceptions\RepositoryException;
 abstract class Repository implements RepositoryInterface, CriteriaInterface
 {
     /**
-     * @var Application
+     * @var App
      */
     protected $app;
 
@@ -48,14 +48,17 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 初始化
      * Repository constructor.
-     * @param Application $app
+     * @param App $app
      * @param Collection $collection
+     * @throws RepositoryException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function __construct(Application $app, Collection $collection)
+    public function __construct(App $app, Collection $collection)
     {
         $this->app = $app;
         $this->criteria = $collection;
         $this->resetScope();
+        $this->makeModel();
     }
 
     /**
@@ -73,7 +76,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function makeModel()
     {
-        return $this->setModel($this->model);
+        return $this->setModel($this->model());
     }
 
     /**
@@ -89,7 +92,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     {
         $this->newModel = $this->app->make($eloquentModel);
         if (!$this->newModel instanceof Model) {
-            throw new RepositoryException("Class {$this->newModel} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+            throw new RepositoryException("Class {$this->newModel} must be an instance of " . Model::class);
         }
 
         return $this->model = $this->newModel;
@@ -157,11 +160,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     {
         if ($this->preventCriteriaOverwriting) {
             // Find existing criteria
-            $key = $this->criteria->search(
-                function ($item) use ($criteria) {
-                    return (is_object($item) && (get_class($item) == get_class($criteria)));
-                }
-            );
+            $key = $this->criteria->search(function ($item) use ($criteria) {
+                return (is_object($item) && (get_class($item) == get_class($criteria)));
+            });
 
             // Remove old criteria
             if (is_int($key)) {

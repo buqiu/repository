@@ -54,15 +54,15 @@ class RepositoryCreator extends BaseCreator
         // Repository class.
         $repositoryClass = $this->getName();
         if (Str::is('*/*', $repositoryClass)) {
-            $directory = $this->getDirectory().'/'.Str::before($repositoryClass, '/');
+            $directory = $this->getDirectory().'/'.substr($repositoryClass, 0, strrpos($repositoryClass, '/'));
             // 判断目录是否存在
             if (!$this->files->isDirectory($directory)) {
-                $this->files->makeDirectory($directory);
+                $this->files->makeDirectory($directory, 0755, true);
             }
             // 重定义命名空间
-            $repositoryNamespace = $repositoryNamespace.'\\'.Str::before($repositoryClass, '/');
+            $repositoryNamespace = $repositoryNamespace.'\\'.substr($repositoryClass, 0, strrpos($repositoryClass, '/'));
             // 重定义存储库类名
-            $repositoryClass = Str::after($repositoryClass, '/');
+            $repositoryClass = substr($repositoryClass, 0, strrpos($repositoryClass, '/') + 1);;
         }
 
         // Model path.
@@ -74,7 +74,7 @@ class RepositoryCreator extends BaseCreator
 
         // Model name.
         if (Str::is('*/*', $modelName)) {
-            $modelName = Str::after($modelName, '/');
+            $modelName = substr($modelName, 0, strrpos($modelName, '/'));;
         }
 
         // Populate data.
