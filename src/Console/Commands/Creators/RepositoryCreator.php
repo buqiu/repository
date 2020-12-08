@@ -2,7 +2,9 @@
 
 namespace Buqiu\Repository\Console\Commands\Creators;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\CachedWordInflector;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\RulesetInflector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
@@ -126,7 +128,17 @@ class RepositoryCreator extends BaseCreator
         // Check if the model isset,
         // Set the model name from the model option,
         // Set the model name by the stripped repository name.
-        return isset($model) && !empty($model) ? $model : Inflector::singularize($this->stripRepositoryName());
+
+        $inflector = new Inflector(
+            new CachedWordInflector(
+                new RulesetInflector(English\Rules::getSingularRuleset())
+            ),
+            new CachedWordInflector(
+                new RulesetInflector(English\Rules::getPluralRuleset())
+            )
+        );
+
+        return isset($model) && !empty($model) ? $model : $inflector->singularize($this->stripRepositoryName());
     }
 
     /**
