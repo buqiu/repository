@@ -26,7 +26,7 @@ class RepositoryCreator extends BaseCreator
 
         if (!class_exists($model)) {
             if ($this->command->confirm("Do you want to create a {$model} model?")) {
-                $modelName = str_replace('App\\', '', $model);
+                $modelName = str_replace('\\', '/', $model);
                 Artisan::call('make:model', ['name' => $modelName ?? $this->name]);
             } else {
                 throw new \RuntimeException("Could not create repository: Model {$model} does not exist.");
@@ -65,7 +65,7 @@ class RepositoryCreator extends BaseCreator
             // 重定义命名空间
             $repositoryNamespace = $repositoryNamespace.'\\'.substr($repositoryClass, 0, strrpos($repositoryClass, '/'));
             // 重定义存储库类名
-            $repositoryClass = substr($repositoryClass, 0, strrpos($repositoryClass, '/') + 1);;
+            $repositoryClass = Str::afterLast($repositoryClass, '/');
         }
 
         // Model path.
@@ -77,7 +77,7 @@ class RepositoryCreator extends BaseCreator
 
         // Model name.
         if (Str::is('*/*', $modelName)) {
-            $modelName = substr($modelName, 0, strrpos($modelName, '/'));;
+            $modelName = Str::afterLast($modelName, '/');
         }
 
         // Populate data.
