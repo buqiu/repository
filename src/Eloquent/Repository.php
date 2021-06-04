@@ -490,7 +490,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
         $this->applyCriteria();
         $this->buildQueryByAttributes($attributes);
 
-        return $this->model->paginate($perPage, $columns, $method);
+        $paginationMethod = $method !== 'full' ? 'simplePaginate' : 'paginate';
+
+        return $this->model->$paginationMethod($perPage, $columns);
     }
 
     /**
