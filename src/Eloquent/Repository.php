@@ -353,6 +353,22 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
+     * Notes:  whereIn
+     * User : smallK
+     * Date : 2021/6/23
+     * Time : 10:38 上午
+     * @param $attribute  //字段
+     * @param $data  // 值
+     * @return $this
+     */
+    public function whereIn($attribute, $data)
+    {
+        $this->model = $this->model->whereIn($attribute, $data);
+
+        return $this;
+    }
+
+    /**
      * 使用where子句向查询添加并且关系条件
      *
      * @param  string  $relation  关系
