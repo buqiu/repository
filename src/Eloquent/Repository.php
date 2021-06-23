@@ -357,11 +357,11 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * User : smallK
      * Date : 2021/6/23
      * Time : 10:38 上午
-     * @param $attribute  //字段
-     * @param $data  // 值
+     * @param  string  $attribute  字段
+     * @param  array  $data  值
      * @return $this
      */
-    public function whereIn($attribute, $data)
+    public function whereIn(string $attribute, array $data)
     {
         $this->model = $this->model->whereIn($attribute, $data);
 
