@@ -2,8 +2,8 @@
 
 namespace Buqiu\Repository\Console\Commands\Creators;
 
+use Doctrine\Inflector\Inflector;
 use Illuminate\Support\Facades\Config;
-use Doctrine\Common\Inflector\Inflector;
 
 class CriteriaCreator extends BaseCreator
 {
@@ -70,7 +70,7 @@ class CriteriaCreator extends BaseCreator
     protected function pluralizeModel()
     {
         // Pluralized
-        $pluralized = Inflector::pluralize($this->getModel());
+        $pluralized = $this->inflector()->pluralize($this->getModel());
 
         // Uppercase first character the modelname
         $model_name = ucfirst($pluralized);

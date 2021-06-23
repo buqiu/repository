@@ -2,6 +2,10 @@
 
 namespace Buqiu\Repository\Console\Commands\Creators;
 
+use Doctrine\Inflector\CachedWordInflector;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\Rules\English\Rules;
+use Doctrine\Inflector\RulesetInflector;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
 use Buqiu\Repository\Console\Commands\BaseCommand;
@@ -183,6 +187,25 @@ abstract class BaseCreator
 
         // Return the stub.
         return $stub;
+    }
+
+    /**
+     * 初始化返回复数形式的单词
+     *
+     * @return Inflector
+     */
+    public function inflector()
+    {
+        return $inflector = new Inflector(
+            new CachedWordInflector(
+                new RulesetInflector(Rules::getSingularRuleset())
+
+
+            ),
+            new CachedWordInflector(
+                new RulesetInflector(Rules::getPluralRuleset())
+            )
+        );
     }
 
     /**

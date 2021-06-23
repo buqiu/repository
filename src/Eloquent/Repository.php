@@ -48,8 +48,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 初始化
      * Repository constructor.
-     * @param App $app
-     * @param Collection $collection
+     * @param  App  $app
+     * @param  Collection  $collection
      * @throws RepositoryException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
@@ -92,7 +92,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     {
         $this->newModel = $this->app->make($eloquentModel);
         if (!$this->newModel instanceof Model) {
-            throw new RepositoryException("Class {$this->newModel} must be an instance of " . Model::class);
+            throw new RepositoryException("Class {$this->newModel} must be an instance of ".Model::class);
         }
 
         return $this->model = $this->newModel;
@@ -120,7 +120,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
-     * @param bool $status
+     * @param  bool  $status
      *
      * @return $this|mixed
      */
@@ -140,7 +140,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
-     * @param Criteria $criteria
+     * @param  Criteria  $criteria
      *
      * @return $this|mixed
      */
@@ -152,7 +152,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
-     * @param Criteria $criteria
+     * @param  Criteria  $criteria
      *
      * @return $this|mixed
      */
@@ -160,9 +160,11 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     {
         if ($this->preventCriteriaOverwriting) {
             // Find existing criteria
-            $key = $this->criteria->search(function ($item) use ($criteria) {
-                return (is_object($item) && (get_class($item) == get_class($criteria)));
-            });
+            $key = $this->criteria->search(
+                function ($item) use ($criteria) {
+                    return (is_object($item) && (get_class($item) == get_class($criteria)));
+                }
+            );
 
             // Remove old criteria
             if (is_int($key)) {
@@ -196,7 +198,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 获取所有数据
      *
-     * @param array $columns 字段 * 代表所有字段
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed|void
      */
@@ -223,9 +225,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 获取分页数据
      *
-     * @param int $perPage 每页条数
-     * @param array $columns 字段 * 代表所有字段
-     * @param string $method 分页格式
+     * @param  int  $perPage  每页条数
+     * @param  array  $columns  字段 * 代表所有字段
+     * @param  string  $method  分页格式
      *
      * @return Paginator
      */
@@ -241,7 +243,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 创建数据
      *
-     * @param array $data 数据
+     * @param  array  $data  数据
      *
      * @return mixed|void
      */
@@ -254,7 +256,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * 保存模型而无需进行大量分配
      * save a model without massive assignment.
      *
-     * @param array $data
+     * @param  array  $data
      *
      * @return mixed
      */
@@ -270,9 +272,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 修改数据
      *
-     * @param array $data 数据
-     * @param mixed $id 属性值
-     * @param string $attribute 属性条件
+     * @param  array  $data  数据
+     * @param  mixed  $id  属性值
+     * @param  string  $attribute  属性条件
      *
      * @return mixed|void
      */
@@ -284,7 +286,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 删除数据
      *
-     * @param mixed $id 属性值
+     * @param  mixed  $id  属性值
      *
      * @return mixed
      */
@@ -296,7 +298,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 按给定条件删除多条数据
      *
-     * @param array $attributes 属性条件
+     * @param  array  $attributes  属性条件
      *
      * @return mixed
      */
@@ -310,8 +312,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
-     * @param string $columns
-     * @param string $direction
+     * @param  string  $columns
+     * @param  string  $direction
      *
      * @return mixed|void
      */
@@ -325,7 +327,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 设置希望加载的关系
      *
-     * @param array $relations 关系
+     * @param  array  $relations  关系
      *
      * @return mixed
      */
@@ -339,7 +341,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 添加子选择查询以统计关系
      *
-     * @param mixed $relations 关系
+     * @param  mixed  $relations  关系
      *
      * @return mixed
      */
@@ -353,8 +355,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 使用where子句向查询添加并且关系条件
      *
-     * @param string $relation 关系
-     * @param \Closure|null $callback 返回
+     * @param  string  $relation  关系
+     * @param  \Closure|null  $callback  返回
      *
      * @return mixed
      */
@@ -368,8 +370,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 使用where子句向查询添加或关系条件
      *
-     * @param string $relation 关系
-     * @param \Closure|null $callback 返回
+     * @param  string  $relation  关系
+     * @param  \Closure|null  $callback  返回
      *
      * @return mixed
      */
@@ -383,8 +385,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据主键查找单条数据
      *
-     * @param int $id ID
-     * @param array $columns 字段 * 代表所有字段
+     * @param  int  $id  ID
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
@@ -398,8 +400,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据多主键查询所有数据
      *
-     * @param array $ids //IDS
-     * @param array $columns 字段 * 代表所有字段
+     * @param  array  $ids  //IDS
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
@@ -414,9 +416,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * 根据条件查询单条数据
      * Find data by field and value
      *
-     * @param string $attribute 字段
-     * @param string $value 值
-     * @param array $columns 字段 * 代表所有字段
+     * @param  string  $attribute  字段
+     * @param  string  $value  值
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
@@ -430,8 +432,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据多属性条件单条查询
      *
-     * @param array $attributes 多属性条件
-     * @param array $columns 字段 * 代表所有字段
+     * @param  array  $attributes  多属性条件
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
@@ -446,9 +448,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据条件查询所有数据
      *
-     * @param string $attribute 字段
-     * @param string $value 值
-     * @param array $columns 字段 * 代表所有字段
+     * @param  string  $attribute  字段
+     * @param  string  $value  值
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed|void
      */
@@ -462,8 +464,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据多属性条件获取多条
      *
-     * @param array $attributes 查询属性条件
-     * @param array $columns 字段 * 代表所有字段
+     * @param  array  $attributes  查询属性条件
+     * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
@@ -478,10 +480,10 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据属性条件获取多条并且分页数据
      *
-     * @param array $attributes 查询属性条件
-     * @param int $perPage 分页数据
-     * @param array $columns 字段 * 代表所有字段
-     * @param string $method 分页格式
+     * @param  array  $attributes  查询属性条件
+     * @param  int  $perPage  分页数据
+     * @param  array  $columns  字段 * 代表所有字段
+     * @param  string  $method  分页格式
      *
      * @return mixed
      */
@@ -498,7 +500,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 组合查询条件
      *
-     * @param array $attributes 查询属性条件
+     * @param  array  $attributes  查询属性条件
      *
      * @return mixed
      */
