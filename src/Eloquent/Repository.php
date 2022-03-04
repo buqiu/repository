@@ -10,6 +10,7 @@ use Buqiu\Repository\Criteria\Criteria;
 use Buqiu\Repository\Contracts\CriteriaInterface;
 use Buqiu\Repository\Contracts\RepositoryInterface;
 use Buqiu\Repository\Exceptions\RepositoryException;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 abstract class Repository implements RepositoryInterface, CriteriaInterface
 {
@@ -401,12 +402,12 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据主键查找单条数据
      *
-     * @param  int  $id  ID
+     * @param  Mixed_  $id  ID
      * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
-    public function find(int $id, array $columns = array('*'))
+    public function find(Mixed_ $id, array $columns = array('*'))
     {
         $this->applyCriteria();
 

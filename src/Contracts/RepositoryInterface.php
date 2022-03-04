@@ -2,6 +2,8 @@
 
 namespace Buqiu\Repository\Contracts;
 
+use phpDocumentor\Reflection\Types\Mixed_;
+
 interface RepositoryInterface
 {
     /**
@@ -112,12 +114,12 @@ interface RepositoryInterface
     /**
      * 根据主键查找单条数据
      *
-     * @param int $id ID
+     * @param Mixed_ $id ID
      * @param array $columns 字段 * 代表所有字段
      *
      * @return mixed
      */
-    public function find(int $id, array $columns = array('*'));
+    public function find(Mixed_ $id, array $columns = array('*'));
 
     /**
      * 根据多主键查询所有数据
