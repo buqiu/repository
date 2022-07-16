@@ -1,6 +1,6 @@
 # Laravel Repository
 
-Laravel Repository 是 Laravel 8 的一个软件包，用于抽象数据库层。 这使应用程序易于维护。
+Laravel Repository 是 Laravel 的一个软件包，用于抽象数据库层。 这使应用程序易于维护。
 
 ## 安装
 
