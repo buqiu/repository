@@ -2,6 +2,7 @@
 
 namespace Buqiu\Repository\Eloquent;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Container\Container as App;
@@ -10,7 +11,6 @@ use Buqiu\Repository\Criteria\Criteria;
 use Buqiu\Repository\Contracts\CriteriaInterface;
 use Buqiu\Repository\Contracts\RepositoryInterface;
 use Buqiu\Repository\Exceptions\RepositoryException;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 abstract class Repository implements RepositoryInterface, CriteriaInterface
 {
@@ -52,7 +52,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * @param  App  $app
      * @param  Collection  $collection
      * @throws RepositoryException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function __construct(App $app, Collection $collection)
     {
@@ -73,9 +73,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * @return Model
      * @throws RepositoryException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
-    public function makeModel()
+    public function makeModel() : Model
     {
         return $this->setModel($this->model());
     }
@@ -87,13 +87,13 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * @param $eloquentModel
      * @return Model
      * @throws RepositoryException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
-    public function setModel($eloquentModel)
+    public function setModel($eloquentModel) : Model
     {
         $this->newModel = $this->app->make($eloquentModel);
-        if (!$this->newModel instanceof Model) {
-            throw new RepositoryException("Class {$this->newModel} must be an instance of ".Model::class);
+        if ( ! $this->newModel instanceof Model) {
+            throw new RepositoryException("Class {$this->newModel} must be an instance of " . Model::class);
         }
 
         return $this->model = $this->newModel;
@@ -103,9 +103,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * 返回模型的干净实体
      * Returns clean entity of model.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
-    public function getModel()
+    public function getModel() : Model
     {
         return $this->newModel;
     }
@@ -113,7 +113,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * @return $this
      */
-    public function resetScope()
+    public function resetScope() : Repository
     {
         $this->skipCriteria(false);
 
@@ -313,6 +313,22 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
+     * 按给定条件删除多条数据
+     *
+     * @param  mixed  $field  字段
+     * @param  mixed  $condition  方式
+     * @param  mixed  $val  值
+     *
+     * @return mixed
+     */
+    public function where($field, $condition, $val)
+    {
+        $this->applyCriteria();
+
+        return $this->model->where($field, $condition, $val);
+    }
+
+    /**
      * @param  string  $columns
      * @param  string  $direction
      *
@@ -353,6 +369,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
         return $this;
     }
 
+
     /**
      * Notes:  whereIn
      * User : smallK
@@ -362,7 +379,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      * @param  array  $data  值
      * @return $this
      */
-    public function whereIn(string $attribute, array $data)
+    public function whereIn(string $attribute, array $data) : Repository
     {
         $this->model = $this->model->whereIn($attribute, $data);
 
@@ -402,12 +419,12 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     /**
      * 根据主键查找单条数据
      *
-     * @param  Mixed_  $id  ID
+     * @param  mixed  $id  ID
      * @param  array  $columns  字段 * 代表所有字段
      *
      * @return mixed
      */
-    public function find(Mixed_ $id, array $columns = array('*'))
+    public function find($id, array $columns = array('*'))
     {
         $this->applyCriteria();
 
@@ -519,7 +536,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      *
      * @param  array  $attributes  查询属性条件
      *
-     * @return mixed
+     * @return void
      */
     protected function buildQueryByAttributes(array $attributes)
     {
